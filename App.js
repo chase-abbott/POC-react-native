@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 //useEffect
 import { StyleSheet, SafeAreaView, Text, View, FlatList, Image } from 'react-native';
 
-const URL = 'https://pokedex-alchemy.herokuapp.com/api/pokedex';
+const URL = 'http://localhost:7890/api/v1/posts';
 
 export default function App() {
   const [pokemon, setPokemon] = useState([]);
@@ -21,7 +21,8 @@ export default function App() {
       //   console.log('Success:', data);
       // })
       .then(response => {
-        return setPokemon(response.results)
+        console.log('RESPONSE**', response);
+        return setPokemon(response)
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -31,27 +32,26 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        numColumns={2}
         style={styles.list}
         data={pokemon}
         renderItem={({ item }) => {
           return (
             <View>
-              < Image source={{ uri: item.url_image }} style={styles.tinyLogo} />
+              <Text>{item.name}</Text>
+              <Image source={{ uri: item.src }} style={styles.tinyLogo} />
             </View>
           )
         }}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.name}
       />
       <StatusBar style="auto" />
       <Text>Hello World!</Text>
     </SafeAreaView>
-  );
+  );4
 }
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     backgroundColor: '#fff',
     flex: 1
   },
