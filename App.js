@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react';
 //useEffect
-import { StyleSheet, Text, View, FlatList, Image } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, View, FlatList, Image } from 'react-native';
 
 const URL = 'https://pokedex-alchemy.herokuapp.com/api/pokedex';
 
@@ -29,26 +29,37 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <FlatList
-        // style={[{ flex: 1 }]}
+        numColumns={2}
+        style={styles.list}
         data={pokemon}
         renderItem={({ item }) => {
-          return < Image source={{ uri: item.url_image }} style={styles.tinyLogo} />
+          return (
+            <View>
+              < Image source={{ uri: item.url_image }} style={styles.tinyLogo} />
+            </View>
+          )
         }}
+        keyExtractor={(item) => item.id.toString()}
       />
       <StatusBar style="auto" />
       <Text>Hello World!</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
     backgroundColor: '#fff',
+    flex: 1
   },
   tinyLogo: {
     width: 50,
     height: 50,
+  },
+  list: {
+    flex: 1
   }
 });
